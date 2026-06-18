@@ -1,6 +1,6 @@
 %% BioMed_Central_Bib_Style_v1.01
 
-\begin{thebibliography}{27}
+\begin{thebibliography}{29}
 % BibTex style file: bmc-mathphys.bst (version 2.1), 2014-07-24
 \ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi
 \ifx \binits  \undefined \def \binits#1{#1}\fi
@@ -497,6 +497,40 @@ In: \bbtitle{Advances in Neural Information Processing Systems (NeurIPS 2022)}
 (\byear{2022}).
 \bcomment{arXiv:2206.00364}.
 \burl{https://arxiv.org/abs/2206.00364}
+\end{bchapter}
+\endbibitem
+
+%%% 28
+\bibitem[\protect\citeauthoryear{Mohammadian
+  et~al.}{2024}]{Mohammadian2024cicunsw}
+\begin{bchapter}
+\bauthor{\bsnm{Mohammadian}, \binits{H.}},
+\bauthor{\bsnm{Lashkari}, \binits{A.H.}},
+\bauthor{\bsnm{Ghorbani}, \binits{A.}}:
+\bctitle{Poisoning and evasion: Deep learning-based nids under adversarial
+  attacks}.
+In: \bbtitle{21st Annual International Conference on Privacy, Security and
+  Trust ({PST})}
+(\byear{2024})
+\end{bchapter}
+\endbibitem
+
+%%% 29
+\bibitem[\protect\citeauthoryear{Sharafaldin
+  et~al.}{2018}]{Sharafaldin2018cicids}
+\begin{bchapter}
+\bauthor{\bsnm{Sharafaldin}, \binits{I.}},
+\bauthor{\bsnm{Lashkari}, \binits{A.H.}},
+\bauthor{\bsnm{Ghorbani}, \binits{A.A.}}:
+\bctitle{Toward generating a new intrusion detection dataset and intrusion
+  traffic characterization}.
+In: \bbtitle{Proceedings of the 4th International Conference on Information
+  Systems Security and Privacy ({ICISSP} 2018)},
+pp. \bfpage{108}--\blpage{116}.
+\bpublisher{SciTePress},
+\blocation{Setubal, PRT}
+(\byear{2018}).
+\doiurl{10.5220/0006639801080116}
 \end{bchapter}
 \endbibitem
 
