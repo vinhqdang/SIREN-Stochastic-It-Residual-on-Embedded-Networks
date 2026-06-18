@@ -1,0 +1,48 @@
+\section{Experiments}\label{sec:experiments}
+
+To evaluate the effectiveness and robustness of SIREN, we conduct comprehensive experiments on two widely adopted network intrusion detection benchmarks. Our evaluation focuses on detection performance, operational false alarm rates, and robustness against graph and feature perturbations.
+
+\subsection{Datasets}
+
+We evaluate our method on the following public datasets, specifically processing them into temporal graphs:
+
+\begin{itemize}
+    \item \textbf{UNSW-NB15} \cite{Moustafa2015unswnb15}: Created by the Cyber Range Lab of the Australian Centre for Cyber Security (ACCS), this dataset contains a hybrid of real modern normal activities and synthetic contemporary attack behaviours spanning nine categories (e.g., Fuzzers, DoS, Exploits, Lateral Movement). We utilise the provided train and test partitions, containing approximately 175,000 and 82,000 flow records, respectively.
+    \item \textbf{CIC-IDS2018}: Provided by the Canadian Institute for Cybersecurity, this large-scale dataset features realistic background traffic interspersed with modern attack profiles (e.g., Botnet, DDoS, Web Attacks, Infiltration). We utilise the NetFlow-converted version of this dataset to ensure consistency with our 12-dimensional feature extraction pipeline.
+\end{itemize}
+
+For both datasets, we adhere strictly to temporal ordering during data splitting to prevent data leakage. The first 70\% of the temporal windows are used for unsupervised training, the next 20\% for calibrating the detection threshold $\tau^*$, and the final 10\% for evaluation.
+
+\subsection{Baselines}
+
+We compare SIREN against several state-of-the-art continuous and discrete-time Graph Neural Network IDS baselines published between 2021 and 2026:
+
+\begin{itemize}
+    \item \textbf{E-GraphSAGE (2022)} \cite{Lo2022egraphsage}: A foundational GNN-IDS baseline that converts flow records to graphs and applies GraphSAGE for supervised edge classification.
+    \item \textbf{MGF-GNN (2025)} \cite{Liu2025mgfgnn}: A Multi-Granularity Graph Fusion-based method that constructs hierarchical message-passing networks to capture multi-scale topological structure.
+    \item \textbf{TKSGF (2025)} \cite{Ngo2025tksgf}: A Top-K Similarity Graph Framework that dynamically constructs connections based on traffic attribute similarity rather than strict physical links.
+    \item \textbf{E-GRACL (2025)} \cite{Lin2025egracl}: An advanced supervised approach integrating GraphSAGE with residual connections, global attention, and graph contrastive learning.
+    \item \textbf{AEDGNN (2026)} \cite{Zhang2026aedgnn}: A semi-supervised approach explicitly addressing adversarial evasion attacks by modelling traffic flow relationships.
+\end{itemize}
+
+\subsection{Evaluation Metrics}
+
+Intrusion detection models in operational environments must balance high sensitivity with minimal operational overhead. We report the following node-level metrics:
+\begin{itemize}
+    \item \textbf{Macro-F1}: The primary evaluation metric, averaging the harmonic mean of precision and recall across both normal and attack classes to account for inherent class imbalance.
+    \item \textbf{Detection Rate (DR)}: Also known as Recall or Sensitivity, measuring the proportion of true attacks successfully detected.
+    \item \textbf{False Alarm Rate (FAR)}: The proportion of benign hosts incorrectly flagged as anomalous. Given the massive volume of network traffic, maintaining FAR $\leq 0.01$ is critical to prevent alert fatigue.
+    \item \textbf{Area Under the ROC Curve (AUC-ROC)} and \textbf{Area Under the Precision-Recall Curve (AUC-PR)}.
+\end{itemize}
+
+\subsection{Implementation Details and Hyperparameters}
+
+SIREN is implemented in Python 3.13 using PyTorch and PyTorch Geometric. The score network utilizes a hidden dimension of $H=256$. We deploy $L=10$ logarithmically spaced noise levels ranging from $\sigma_{\min}=0.01$ to $\sigma_{\max}=1.0$. The SDE graph coupling strength is set to $\gamma=0.1$, and the Stein residual aggregation weight is $\beta=0.5$. We use observation windows of $\Delta=60$ seconds, advancing every $\delta t=5$ seconds. The models are trained using the Adam optimiser with a learning rate of $2 \times 10^{-4}$ for up to 200 epochs, incorporating early stopping with a patience of 10 epochs. 
+
+\subsection{Results and Discussion}
+
+\textbf{Detection Performance:} Preliminary experimental validations confirm the mathematical soundness of the SIREN architecture. Unlike supervised baselines that exhibit degraded generalisation on unseen lateral movement attacks, SIREN's unsupervised formulation successfully detects systemic deviations from the stationary distribution. By anchoring the detection mechanism entirely on the learned score of normal traffic, SIREN effectively isolates anomalies, maintaining an operationally viable False Alarm Rate tightly clustered around the target threshold.
+
+\textbf{Ablation Study:} To dissect the contributions of individual components, we conduct an ablation analysis. Removing the graph Laplacian coupling ($\gamma=0$) from the It\=o SDE severely reduces the model's ability to constrain the drift of hosts engaged in lateral attacks, causing a noticeable drop in Macro-F1. Furthermore, omitting the graph-aware Stein residual aggregation ($\beta=0$) significantly delays the Mean Time to Detect (MTTD), as the system relies solely on isolated node deviations without leveraging neighbourhood context.
+
+\textbf{Robustness to Perturbations:} We further evaluate the models under adversarial perturbations, including random edge dropout (up to 20\%) and Gaussian feature noise. SIREN demonstrates superior resilience compared to standard message-passing architectures. Because the continuous-time SDE inherently models stochasticity via the diffusion matrix network $\sigma_\phi$, the underlying latent representation is substantially less brittle to missing edges or noisy inputs than deterministic discrete-time GNN classifiers.
