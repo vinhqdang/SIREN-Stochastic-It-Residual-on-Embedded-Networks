@@ -1,6 +1,6 @@
 %% BioMed_Central_Bib_Style_v1.01
 
-\begin{thebibliography}{29}
+\begin{thebibliography}{30}
 % BibTex style file: bmc-mathphys.bst (version 2.1), 2014-07-24
 \ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi
 \ifx \binits  \undefined \def \binits#1{#1}\fi
@@ -137,6 +137,19 @@ In: \bbtitle{International Conference on Learning Representations ({ICLR}
 \endbibitem
 
 %%% 6
+\bibitem[\protect\citeauthoryear{Dang}{2019}]{dang2019studying}
+\begin{bchapter}
+\bauthor{\bsnm{Dang}, \binits{Q.-V.}}:
+\bctitle{Studying machine learning techniques for intrusion detection systems}.
+In: \bbtitle{International Conference on Future Data and Security Engineering},
+pp. \bfpage{411}--\blpage{426}.
+\bpublisher{Springer},
+\blocation{Cham, CHE}
+(\byear{2019})
+\end{bchapter}
+\endbibitem
+
+%%% 7
 \bibitem[\protect\citeauthoryear{Zhong et~al.}{2024}]{Zhong2024survey}
 \begin{barticle}
 \bauthor{\bsnm{Zhong}, \binits{M.}},
@@ -153,7 +166,7 @@ In: \bbtitle{International Conference on Learning Representations ({ICLR}
 \end{barticle}
 \endbibitem
 
-%%% 7
+%%% 8
 \bibitem[\protect\citeauthoryear{Ngo et~al.}{2025}]{Ngo2025tksgf}
 \begin{barticle}
 \bauthor{\bsnm{Ngo}, \binits{T.}},
@@ -169,7 +182,7 @@ In: \bbtitle{International Conference on Learning Representations ({ICLR}
 \end{barticle}
 \endbibitem
 
-%%% 8
+%%% 9
 \bibitem[\protect\citeauthoryear{Lin et~al.}{2025}]{Lin2025egracl}
 \begin{barticle}
 \bauthor{\bsnm{Lin}, \binits{L.}},
@@ -186,7 +199,7 @@ In: \bbtitle{International Conference on Learning Representations ({ICLR}
 \end{barticle}
 \endbibitem
 
-%%% 9
+%%% 10
 \bibitem[\protect\citeauthoryear{Ahanger et~al.}{2025}]{Ahanger2025gat}
 \begin{barticle}
 \bauthor{\bsnm{Ahanger}, \binits{A.S.}},
@@ -203,7 +216,7 @@ In: \bbtitle{International Conference on Learning Representations ({ICLR}
 \end{barticle}
 \endbibitem
 
-%%% 10
+%%% 11
 \bibitem[\protect\citeauthoryear{Villegas-Ch
   et~al.}{2025}]{VillegasCh2025dynamic}
 \begin{botherref}
@@ -219,7 +232,7 @@ Intrusion detection in {IoT} networks using dynamic graph modeling and
 \end{botherref}
 \endbibitem
 
-%%% 11
+%%% 12
 \bibitem[\protect\citeauthoryear{Hyv{\"a}rinen}{2005}]{Hyvarinen2005score}
 \begin{barticle}
 \bauthor{\bsnm{Hyv{\"a}rinen}, \binits{A.}}:
@@ -231,7 +244,7 @@ Intrusion detection in {IoT} networks using dynamic graph modeling and
 \end{barticle}
 \endbibitem
 
-%%% 12
+%%% 13
 \bibitem[\protect\citeauthoryear{Vincent}{2011}]{Vincent2011dsm}
 \begin{barticle}
 \bauthor{\bsnm{Vincent}, \binits{P.}}:
@@ -244,7 +257,7 @@ Intrusion detection in {IoT} networks using dynamic graph modeling and
 \end{barticle}
 \endbibitem
 
-%%% 13
+%%% 14
 \bibitem[\protect\citeauthoryear{Song and Ermon}{2019}]{Song2019ncsn}
 \begin{bchapter}
 \bauthor{\bsnm{Song}, \binits{Y.}},
@@ -259,7 +272,7 @@ vol. \bseriesno{32}
 \end{bchapter}
 \endbibitem
 
-%%% 14
+%%% 15
 \bibitem[\protect\citeauthoryear{Kipf and Welling}{2017}]{Kipf2017gcn}
 \begin{bchapter}
 \bauthor{\bsnm{Kipf}, \binits{T.N.}},
@@ -273,7 +286,7 @@ In: \bbtitle{International Conference on Learning Representations ({ICLR}
 \end{bchapter}
 \endbibitem
 
-%%% 15
+%%% 16
 \bibitem[\protect\citeauthoryear{Hamilton et~al.}{2017}]{Hamilton2017graphsage}
 \begin{bchapter}
 \bauthor{\bsnm{Hamilton}, \binits{W.L.}},
@@ -289,7 +302,7 @@ vol. \bseriesno{30}
 \end{bchapter}
 \endbibitem
 
-%%% 16
+%%% 17
 \bibitem[\protect\citeauthoryear{Rossi et~al.}{2020}]{Rossi2020tgn}
 \begin{botherref}
 \oauthor{\bsnm{Rossi}, \binits{E.}},
@@ -305,7 +318,7 @@ arXiv:2006.10637
 \end{botherref}
 \endbibitem
 
-%%% 17
+%%% 18
 \bibitem[\protect\citeauthoryear{Chamberlain
   et~al.}{2021}]{Chamberlain2021grand}
 \begin{bchapter}
@@ -328,7 +341,7 @@ vol. \bseriesno{139}.
 \end{bchapter}
 \endbibitem
 
-%%% 18
+%%% 19
 \bibitem[\protect\citeauthoryear{Kidger et~al.}{2021}]{Kidger2021nsde}
 \begin{bchapter}
 \bauthor{\bsnm{Kidger}, \binits{P.}},
@@ -349,7 +362,7 @@ vol. \bseriesno{139}.
 \end{bchapter}
 \endbibitem
 
-%%% 19
+%%% 20
 \bibitem[\protect\citeauthoryear{Liu et~al.}{2016}]{Liu2016ksd}
 \begin{bchapter}
 \bauthor{\bsnm{Liu}, \binits{Q.}},
@@ -368,7 +381,7 @@ pp. \bfpage{276}--\blpage{284}.
 \end{bchapter}
 \endbibitem
 
-%%% 20
+%%% 21
 \bibitem[\protect\citeauthoryear{Cai et~al.}{2021}]{Cai2021strgnn}
 \begin{bchapter}
 \bauthor{\bsnm{Cai}, \binits{L.}},
@@ -391,7 +404,7 @@ pp. \bfpage{3747}--\blpage{3756}.
 \end{bchapter}
 \endbibitem
 
-%%% 21
+%%% 22
 \bibitem[\protect\citeauthoryear{Bai et~al.}{2025}]{Bai2025crcsgad}
 \begin{botherref}
 \oauthor{\bsnm{Bai}, \binits{S.}},
@@ -405,7 +418,7 @@ arXiv
 \end{botherref}
 \endbibitem
 
-%%% 22
+%%% 23
 \bibitem[\protect\citeauthoryear{Sinha et~al.}{2018}]{Sinha2018wrm}
 \begin{bchapter}
 \bauthor{\bsnm{Sinha}, \binits{A.}},
@@ -422,7 +435,7 @@ In: \bbtitle{International Conference on Learning Representations ({ICLR}
 \end{bchapter}
 \endbibitem
 
-%%% 23
+%%% 24
 \bibitem[\protect\citeauthoryear{Sadeghi et~al.}{2021}]{Sadeghi2021drognn}
 \begin{botherref}
 \oauthor{\bsnm{Sadeghi}},
@@ -436,7 +449,7 @@ arXiv:2110.10582. [VERIFY] full author given names.
 \end{botherref}
 \endbibitem
 
-%%% 24
+%%% 25
 \bibitem[\protect\citeauthoryear{Wang et~al.}{2024}]{Wang2024drgnn}
 \begin{bchapter}
 \bauthor{\bsnm{Wang}, \binits{B.}},
@@ -458,7 +471,7 @@ In: \bbtitle{Proceedings of the {ACM} Web Conference 2024 ({WWW} 2024)}.
 \end{bchapter}
 \endbibitem
 
-%%% 25
+%%% 26
 \bibitem[\protect\citeauthoryear{Meyn and Tweedie}{1993}]{meyn1993stability}
 \begin{bbook}
 \bauthor{\bsnm{Meyn}, \binits{S.P.}},
@@ -470,7 +483,7 @@ In: \bbtitle{Proceedings of the {ACM} Web Conference 2024 ({WWW} 2024)}.
 \end{bbook}
 \endbibitem
 
-%%% 26
+%%% 27
 \bibitem[\protect\citeauthoryear{Talay and Tubaro}{1990}]{talay1990expansion}
 \begin{barticle}
 \bauthor{\bsnm{Talay}, \binits{D.}},
@@ -485,7 +498,7 @@ In: \bbtitle{Proceedings of the {ACM} Web Conference 2024 ({WWW} 2024)}.
 \end{barticle}
 \endbibitem
 
-%%% 27
+%%% 28
 \bibitem[\protect\citeauthoryear{Karras et~al.}{2022}]{Karras2022edm}
 \begin{bchapter}
 \bauthor{\bsnm{Karras}, \binits{T.}},
@@ -500,7 +513,7 @@ In: \bbtitle{Advances in Neural Information Processing Systems (NeurIPS 2022)}
 \end{bchapter}
 \endbibitem
 
-%%% 28
+%%% 29
 \bibitem[\protect\citeauthoryear{Mohammadian
   et~al.}{2024}]{Mohammadian2024cicunsw}
 \begin{bchapter}
@@ -515,7 +528,7 @@ In: \bbtitle{21st Annual International Conference on Privacy, Security and
 \end{bchapter}
 \endbibitem
 
-%%% 29
+%%% 30
 \bibitem[\protect\citeauthoryear{Sharafaldin
   et~al.}{2018}]{Sharafaldin2018cicids}
 \begin{bchapter}
