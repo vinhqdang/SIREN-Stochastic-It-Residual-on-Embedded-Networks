@@ -7,7 +7,7 @@ To evaluate the effectiveness and robustness of SIREN, we conduct comprehensive 
 We evaluate our method on the following public datasets, specifically processing them into temporal graphs:
 
 \begin{itemize}
-    \item \textbf{CIC-UNSW-NB15} \cite{Mohammadian2024cicunsw}: This augmented dataset generates flows from the original 100GB UNSW-NB15 captures using CICFlowMeter. It incorporates nine attack categories (e.g., Fuzzers, Analysis, Backdoor, DoS, Exploits, Generic, Reconnaissance, Shellcode, Worms) alongside benign traffic. Malicious flows were retained while benign flows were sampled to preserve an 80:20 benign-to-malicious ratio, yielding 358,332 benign flows and 86,527 malicious flows for a realistic evaluation.
+    \item \textbf{CIC-UNSW-NB15} \cite{Mohammadian2024cicunsw}: We explicitly utilise the 2024 augmented version of the UNSW-NB15 dataset, which generates flows from the original 100GB captures using CICFlowMeter. It incorporates nine attack categories (e.g., Fuzzers, Analysis, Backdoor, DoS, Exploits, Generic, Reconnaissance, Shellcode, Worms) alongside benign traffic. Malicious flows were retained while benign flows were sampled to preserve an 80:20 benign-to-malicious ratio, yielding 358,332 benign flows and 86,527 malicious flows for a realistic evaluation.
     \item \textbf{CIC-IDS2018} \cite{Sharafaldin2018cicids}: Provided by the Canadian Institute for Cybersecurity, this large-scale dataset features realistic background traffic interspersed with modern attack profiles (e.g., Botnet, DDoS, Web Attacks, Infiltration). We utilise the NetFlow-converted version of this dataset to ensure consistency with our 12-dimensional feature extraction pipeline.
 \end{itemize}
 
