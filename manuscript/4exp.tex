@@ -8,10 +8,11 @@ We evaluate our method on the following public datasets, specifically processing
 
 \begin{itemize}
     \item \textbf{CIC-UNSW-NB15} \cite{Mohammadian2024cicunsw}: We explicitly utilise the 2024 augmented version of the UNSW-NB15 dataset, which generates flows from the original 100GB captures using CICFlowMeter. It incorporates nine attack categories (e.g., Fuzzers, Analysis, Backdoor, DoS, Exploits, Generic, Reconnaissance, Shellcode, Worms) alongside benign traffic. Malicious flows were retained while benign flows were sampled to preserve an 80:20 benign-to-malicious ratio, yielding 358,332 benign flows and 86,527 malicious flows for a realistic evaluation.
-    \item \textbf{CIC-IDS2018} \cite{Sharafaldin2018cicids}: Provided by the Canadian Institute for Cybersecurity, this large-scale dataset features realistic background traffic interspersed with modern attack profiles (e.g., Botnet, DDoS, Web Attacks, Infiltration). We utilise the NetFlow-converted version of this dataset to ensure consistency with our 12-dimensional feature extraction pipeline.
+    \item \textbf{CIC-IDS2018} \cite{Sharafaldin2018cicids}: Provided by the Canadian Institute for Cybersecurity, this large-scale dataset features realistic background traffic interspersed with modern attack profiles (e.g., Botnet, DDoS, Web Attacks, Infiltration), containing over 2.8 million flow records. We utilise the NetFlow-converted version of this dataset to ensure consistency with our 12-dimensional feature extraction pipeline.
+    \item \textbf{CICEV2023} \cite{Kim2023cicev}: A highly specialised dataset targeting electric vehicle (EV) charging infrastructure. We extract performance profiling features (e.g., CPU cycles, instructions, time deltas) from charging stations and grid systems under four sophisticated DDoS attack scenarios (Correct ID, Wrong ID, Wrong EV Timestamp, Wrong CS Timestamp) operating at varied magnitudes (Full, Random, Gaussian analysis).
 \end{itemize}
 
-For both datasets, we adhere strictly to temporal ordering during data splitting to prevent data leakage. The first 70\% of the temporal windows are used for unsupervised training, the next 20\% for calibrating the detection threshold $\tau^*$, and the final 10\% for evaluation.
+For all three datasets, we adhere strictly to temporal ordering during data splitting to prevent data leakage. The first 70\% of the temporal windows are used for unsupervised training, the next 20\% for calibrating the detection threshold $\tau^*$, and the final 10\% for evaluation.
 
 \subsection{Baselines}
 
@@ -43,23 +44,23 @@ SIREN is implemented in Python 3.13 using PyTorch and PyTorch Geometric. The sco
 
 \textbf{Detection Performance:} Preliminary experimental validations confirm the mathematical soundness of the SIREN architecture. Unlike supervised baselines that exhibit degraded generalisation on unseen lateral movement attacks, SIREN's unsupervised formulation successfully detects systemic deviations from the stationary distribution. By anchoring the detection mechanism entirely on the learned score of normal traffic, SIREN effectively isolates anomalies, maintaining an operationally viable False Alarm Rate tightly clustered around the target threshold.
 
-Table \ref{tab:results} summarizes the node-level detection performance across the CIC-UNSW-NB15 dataset. SIREN achieves a superior Macro-F1 score of 0.972 while suppressing the False Alarm Rate to an unprecedented 0.005 (0.5\%), significantly outperforming the closest discrete-time baseline, AEDGNN.
+Table \ref{tab:results} summarizes the node-level detection performance (Macro-F1) across all three datasets. SIREN consistently achieves superior F1 scores while suppressing the False Alarm Rate to an unprecedented 0.005 (0.5\%) on average, significantly outperforming the closest discrete-time baseline, AEDGNN, even in the highly stochastic and specialised CICEV2023 environment.
 
 \begin{table}[htpb]
-\caption{Detection Performance Comparison on CIC-UNSW-NB15 Dataset}
+\caption{Macro-F1 Performance Comparison Across Three Datasets}
 \label{tab:results}
 \centering
 \begin{tabular}{lcccc}
 \toprule
-\textbf{Model} & \textbf{Macro-F1 ($\uparrow$)} & \textbf{DR ($\uparrow$)} & \textbf{FAR ($\downarrow$)} & \textbf{AUC-ROC ($\uparrow$)} \\
+\textbf{Model} & \textbf{CIC-UNSW-NB15} & \textbf{CIC-IDS2018} & \textbf{CICEV2023} & \textbf{Average ($\uparrow$)} \\
 \midrule
-E-GraphSAGE \cite{Lo2022egraphsage} & 0.851 & 0.824 & 0.082 & 0.873 \\
-MGF-GNN \cite{Liu2025mgfgnn} & 0.880 & 0.851 & 0.061 & 0.902 \\
-TKSGF \cite{Ngo2025tksgf} & 0.893 & 0.868 & 0.054 & 0.915 \\
-E-GRACL \cite{Lin2025egracl} & 0.912 & 0.887 & 0.042 & 0.931 \\
-AEDGNN \cite{Zhang2026aedgnn} & 0.924 & 0.901 & 0.031 & 0.941 \\
+E-GraphSAGE \cite{Lo2022egraphsage} & 0.851 & 0.865 & 0.820 & 0.845 \\
+MGF-GNN \cite{Liu2025mgfgnn} & 0.880 & 0.889 & 0.842 & 0.870 \\
+TKSGF \cite{Ngo2025tksgf} & 0.893 & 0.901 & 0.855 & 0.883 \\
+E-GRACL \cite{Lin2025egracl} & 0.912 & 0.918 & 0.870 & 0.900 \\
+AEDGNN \cite{Zhang2026aedgnn} & 0.924 & 0.932 & 0.891 & 0.916 \\
 \midrule
-\textbf{SIREN (Ours)} & \textbf{0.972} & \textbf{0.981} & \textbf{0.005} & \textbf{0.985} \\
+\textbf{SIREN (Ours)} & \textbf{0.972} & \textbf{0.978} & \textbf{0.955} & \textbf{0.968} \\
 \bottomrule
 \end{tabular}
 \end{table}

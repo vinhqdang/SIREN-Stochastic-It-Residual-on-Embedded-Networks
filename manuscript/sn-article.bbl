@@ -1,6 +1,6 @@
 %% BioMed_Central_Bib_Style_v1.01
 
-\begin{thebibliography}{31}
+\begin{thebibliography}{32}
 % BibTex style file: bmc-mathphys.bst (version 2.1), 2014-07-24
 \ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi
 \ifx \binits  \undefined \def \binits#1{#1}\fi
@@ -144,8 +144,9 @@ In: \bbtitle{International Conference on Learning Representations ({ICLR}
 In: \bbtitle{International Conference on Future Data and Security Engineering},
 pp. \bfpage{411}--\blpage{426}.
 \bpublisher{Springer},
-\blocation{Cham, CHE}
-(\byear{2019})
+\blocation{Cham}
+(\byear{2019}).
+\doiurl{10.1007/978-3-030-35653-8_28}
 \end{bchapter}
 \endbibitem
 
@@ -538,7 +539,8 @@ In: \bbtitle{Advances in Neural Information Processing Systems (NeurIPS 2022)}
   attacks}.
 In: \bbtitle{21st Annual International Conference on Privacy, Security and
   Trust ({PST})}
-(\byear{2024})
+(\byear{2024}).
+\doiurl{10.1109/PST62714.2024.10788064}
 \end{bchapter}
 \endbibitem
 
@@ -558,6 +560,23 @@ pp. \bfpage{108}--\blpage{116}.
 \blocation{Setubal, PRT}
 (\byear{2018}).
 \doiurl{10.5220/0006639801080116}
+\end{bchapter}
+\endbibitem
+
+%%% 32
+\bibitem[\protect\citeauthoryear{Kim et~al.}{2023}]{Kim2023cicev}
+\begin{bchapter}
+\bauthor{\bsnm{Kim}, \binits{Y.}},
+\bauthor{\bsnm{Hakak}, \binits{S.}},
+\bauthor{\bsnm{Ghorbani}, \binits{A.}}:
+\bctitle{Ddos attack dataset ({CICEV2023}) against {EV} authentication in
+  charging infrastructure}.
+In: \bbtitle{2023 20th Annual International Conference on Privacy, Security and
+  Trust ({PST})},
+pp. \bfpage{1}--\blpage{9}.
+\bpublisher{IEEE Computer Society},
+\blocation{Los Alamitos, CA, USA}
+(\byear{2023})
 \end{bchapter}
 \endbibitem
 
