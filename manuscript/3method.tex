@@ -1,0 +1,68 @@
+\section{Methodology}\label{sec:method}
+
+This section details the architecture and formalisms of SIREN. We begin by defining the notation and problem setup, followed by the mechanism for constructing dynamic flow graphs. We then present the core graph-coupled It\=o SDE model, the score network architecture, and finally outline the training and inference algorithms.
+
+\subsection{Notation and Problem Setup}
+
+Let a network at any given time window be represented by a graph $G = (V, E, A)$, where $V$ is the set of hosts (IP addresses), $E$ is the set of observed connections between these hosts, and $A \in \mathbb{R}^{n \times n}$ is the weighted adjacency matrix, with $n = |V|$ denoting the number of active nodes.
+
+For each node $i \in V$, we extract a feature vector $X_i(t) \in \mathbb{R}^d$ summarising its traffic behaviour at continuous time $t$. The joint state of the network is thus represented by the matrix $X(t) \in \mathbb{R}^{n \times d}$. We define the graph Laplacian as $L = D - A$, where $D$ is the diagonal degree matrix. Let $f_\theta : \mathbb{R}^d \to \mathbb{R}^d$ be a learned neural drift function with parameters $\theta$, and let $\sigma_\phi : \mathbb{R}^d \to \mathbb{R}^{d \times d}$ be a learned diffusion matrix network with parameters $\phi$.
+
+Our objective is to model the evolution of $X(t)$ under benign conditions. We assume that benign traffic follows a stationary distribution $\pi^*$. By estimating the score function $s^*(x) = \nabla_x \log \pi^*(x)$ using a neural approximation $s_{\theta\phi}(x, t)$, we can monitor live traffic $X(t)$. We flag a node $i$ as anomalous if its empirical trajectory deviates significantly from the model, a deviation we quantify via a \textit{Stein residual} $R_i(t)$.
+
+\subsection{Graph Construction and Feature Extraction}
+
+SIREN operates on temporal windows of size $\Delta$. Within each window ending at time $t$, we observe a set of network flows.
+
+\textbf{Node and Edge Definition:} Each unique endpoint (source or destination IP) observed in the current window forms a node in $V$. We construct a directed edge from host $i$ to host $j$ if at least $k_{\min}$ flows are observed from $i$ to $j$ within the window. To account for varying flow volumes, we assign a logarithmically scaled edge weight:
+\begin{equation}
+A_{ij} = \frac{\log(1 + \text{flow\_count}(i \to j))}{\log(1 + \text{total\_flows}_i)}
+\end{equation}
+For undirected analysis, we symmetrise the adjacency matrix as $A \leftarrow (A + A^T)/2$.
+
+\textbf{Feature Representation:} For each node $i$, we extract a $d=12$ dimensional feature vector $X_i(t)$ comprising statistics such as mean flow duration, log-scaled total bytes sent and received, log-scaled packet counts, mean and standard deviation of inter-arrival times, unique source and destination ports, protocol ratios (TCP vs. UDP), and the SYN packet rate. We also append the weighted node degree $\sum_j A_{ij}$ to encapsulate local centrality. These features are $Z$-score normalised using parameters derived exclusively from the benign training set.
+
+If a node exhibits no traffic in the current window, we apply a zero-order hold, carrying forward its last observed state.
+
+\subsection{The Graph-Coupled It\=o SDE Model}
+
+We model the temporal evolution of the node state $X_i(t)$ as an It\=o stochastic differential equation:
+\begin{equation}
+dX_i(t) = \Big[ f_\theta(X_i(t)) + \gamma \sum_{j \in \mathcal{N}(i)} A_{ij}(X_j(t) - X_i(t)) \Big] dt + \sigma_\phi(X_i(t)) dW_i(t)
+\end{equation}
+where $W_i(t)$ is a $d$-dimensional standard Wiener process.
+
+This formulation consists of three components:
+\begin{enumerate}
+    \item \textbf{Autonomous Drift ($f_\theta$):} Captures the inherent, host-specific deterministic dynamics.
+    \item \textbf{Topological Mean-Reversion:} The graph Laplacian term scaled by $\gamma \geq 0$ enforces a prior that connected nodes exert a regularising influence on each other, constraining lateral deviation.
+    \item \textbf{Stochastic Diffusion ($\sigma_\phi$):} Captures the inherent burstiness and jitter in network traffic. $\sigma_\phi$ outputs a Cholesky factor to guarantee a positive-definite covariance structure.
+\end{enumerate}
+
+For discrete-time observation intervals $\delta t$, we simulate the trajectory using the Euler-Maruyama scheme:
+\begin{equation}
+X_i(t + \delta t) = X_i(t) + \Big[ f_\theta(X_i(t)) + \gamma \sum_{j} A_{ij}(X_j(t) - X_i(t)) \Big] \delta t + \sigma_\phi(X_i(t)) \sqrt{\delta t} \epsilon_i
+\end{equation}
+where $\epsilon_i \sim \mathcal{N}(0, I_d)$.
+
+\subsection{Score Network Architecture}
+
+To detect deviations from the normal stationary distribution $\pi^*$, SIREN employs a score network $s_{\theta\phi}(x, \sigma)$ that approximates $\nabla_x \log \pi^*(x)$ conditioned on a noise level $\sigma$.
+
+The backbone is a graph-conditioned Multi-Layer Perceptron (MLP) with residual connections. The input $x \in \mathbb{R}^d$ is concatenated with a normalised local neighbourhood context vector $\sum_j A_{ij} X_j / (\text{deg}_i + \epsilon)$. This combined input is projected into a hidden dimension $H=256$, followed by four residual blocks. We employ EDM-style parameterisation, adding a learned logarithmic noise embedding before the final layer and scaling the output by $1/\sigma$ to maintain numerical stability across varying noise scales. 
+
+\subsection{Training and Inference Algorithms}
+
+\textbf{Joint SDE and Score Training:} SIREN is trained entirely on benign traffic. We jointly optimise the SDE parameters ($\theta, \phi$) and the score network by minimising a combined loss $L_{total} = L_{score} + \lambda_{sde} L_{sde}$. 
+The SDE loss $L_{sde}$ is the mean squared error of the one-step Euler-Maruyama prediction over observed temporal pairs. 
+The score matching loss $L_{score}$ employs Multi-Scale Denoising Score Matching. We perturb the observed node states with Gaussian noise at $L=10$ logarithmically spaced levels $\sigma_l \in [\sigma_{\min}, \sigma_{\max}]$. The network is trained to recover the noise vector, minimising the discrepancy against the tractable Gaussian score target $-\epsilon / \sigma_l$.
+
+\textbf{Inference via Stein Residuals:} At inference time, we compute an empirical score estimate $\hat{s}_{emp}(x)$ for each node using a short-window sliding Kernel Density Estimator (KDE). Utilizing the Silverman rule for bandwidth selection, the KDE provides a fast approximation of the local gradient of the data distribution. We define the \textit{Stein residual} for node $i$ as:
+\begin{equation}
+R_i(t) = \left\| s_{\theta\phi}(X_i(t), \sigma_{\min}) - \hat{s}_{emp}(X_i(t)) \right\|_2
+\end{equation}
+To uncover stealthy lateral movement, these local residuals are aggregated across the graph:
+\begin{equation}
+\tilde{R}_i(t) = R_i(t) + \beta \sum_{j \in \mathcal{N}(i)} A_{ij} R_j(t)
+\end{equation}
+where $\beta$ controls the diffusion of the anomaly signal. Finally, an alert is triggered if $\tilde{R}_i(t)$ exceeds a detection threshold $\tau^*$, which is calibrated offline to ensure a target False Alarm Rate (e.g., 1\%) on a validation split.

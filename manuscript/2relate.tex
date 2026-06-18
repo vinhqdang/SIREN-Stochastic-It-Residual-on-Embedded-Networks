@@ -1,0 +1,138 @@
+% =========================================================
+%  SIREN -- Related Work
+%  Target: Machine Learning (Springer, Q1)
+% =========================================================
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Graph Neural Networks for Network Intrusion Detection}
+
+Graph neural networks (GNNs) have become the dominant paradigm for network
+intrusion detection owing to their capacity to exploit the structural
+relationships among hosts and traffic flows that elude flat feature-vector
+classifiers~\citep{Zhong2024survey}.
+\citet{Lo2022egraphsage} proposed E-GraphSAGE, converting per-flow records
+into a network graph and applying GraphSAGE-based edge classification;
+despite its widespread use as a baseline, E-GraphSAGE operates on static
+snapshot graphs and emits uncalibrated point predictions.
+More recent work has sought to enrich both graph construction and
+representation learning.
+\citet{Ngo2025tksgf} introduced TKSGF, replacing physical-link graphs with
+Top-$K$ attribute-similarity edges paired with a GraphSAGE backbone, and
+demonstrated that feature-driven topology substantially improves detection
+accuracy on IoT benchmarks.
+\citet{Lin2025egracl} proposed E-GRACL, augmenting GraphSAGE with residual
+connections, a global attention mechanism, local gating, and graph
+contrastive learning to capture both edge features and topological information
+simultaneously.
+At the multi-scale level, \citet{Liu2025mgfgnn} built MGF-GNN, fusing
+host-level, port-level, and protocol-level graphs inside a hierarchical
+message-passing framework, while \citet{Zhang2026aedgnn} addressed adversarial
+evasion through AEDGNN, a semi-supervised GNN formulation that explicitly
+models inter-flow relationships to resist labelling noise.
+Parallel work by \citet{Ahanger2025gat} applied graph attention networks to
+IoT intrusion detection, and \citet{VillegasCh2025dynamic} developed a
+dynamic graph modelling approach for IoT traffic.
+All of these methods share a common limitation with respect to \textsc{Siren}:
+they operate on discrete-time graph snapshots, produce point predictions, and
+provide no probabilistic guarantee over the \emph{stationary behaviour} of the
+monitored system under normal conditions.
+
+\subsection{Score-Based Generative Models}
+
+The score function $\nabla_{\mathbf{x}} \log p(\mathbf{x})$ was introduced
+as a tractable surrogate for the intractable log-likelihood by
+\citet{Hyvarinen2005score}, who proved that minimising the expected squared
+difference between the model score and the data score---score
+matching---equals maximum likelihood under mild regularity conditions.
+\citet{Vincent2011dsm} later showed that denoising autoencoders implicitly
+perform score matching, motivating the denoising score matching (DSM)
+objective that sidesteps the intractable Hessian.
+Building on this, \citet{Song2019ncsn} proposed NCSN, training a
+noise-conditional score network across a ladder of noise levels and using
+Langevin dynamics at inference; this multi-scale strategy dramatically
+improves score estimation quality in high-dimensional settings.
+\citet{Song2021sde} then unified diffusion-based and score-based
+generative models under a continuous-time SDE framework, in which the
+forward process is a prescribed It\^o SDE that injects noise and the learned
+reverse drift is parameterised by the score network.
+\textsc{Siren} borrows the multi-scale DSM objective and the score-SDE
+connection from these works, but redirects them toward a fundamentally
+different objective: rather than generation, we exploit the learned score of
+the \emph{stationary distribution} of a graph-coupled SDE as a structured
+anomaly signal.
+
+\subsection{Continuous-Time Models on Graphs}
+
+Static GNNs~\citep{Kipf2017gcn,Hamilton2017graphsage} capture structural
+relationships at a single snapshot but are inherently unable to model the
+continuous temporal evolution of network traffic.
+Temporal graph networks (TGN)~\citep{Rossi2020tgn} extended GNNs to dynamic
+graphs through memory modules and temporal attention, enabling event-level
+updates; however, TGN operates in discrete event time and does not posit a
+generative stochastic process over the joint graph state.
+Graph neural diffusion (GRAND)~\citep{Chamberlain2021grand}
+re-interpreted message passing as the discretisation of a \emph{deterministic}
+heat-diffusion partial differential equation on the graph, providing improved
+over-smoothing control and depth generalisation; yet the deterministic ODE
+formulation cannot model the inherent stochasticity of real network traffic.
+Closest in spirit to our approach, \citet{Kidger2021nsde} demonstrated that
+neural stochastic differential equations can be trained end-to-end via
+adjoint-based backpropagation through the It\^o integral, establishing the
+computational feasibility of learned stochastic dynamics on sequences.
+\textsc{Siren} extends this programme to \emph{coupled} systems of It\^o SDEs
+on graphs, where the graph Laplacian enters the drift, the diffusion is
+learned per-node, and the stationary distribution of the resulting process
+provides the detection signal---an objective and architecture that is absent
+from all prior graph--SDE work.
+
+\subsection{Stein Operators and Graph Anomaly Detection}
+
+The Stein operator $\mathcal{A}_{p}\,g(\mathbf{x})
+= \nabla_{\mathbf{x}}\!\log p(\mathbf{x})^\top g(\mathbf{x})
+  + \nabla_{\mathbf{x}}\!\cdot\! g(\mathbf{x})$
+satisfies $\mathbb{E}_{p}[\mathcal{A}_{p}\,g] = 0$ for all smooth test
+functions $g$ under mild regularity conditions.
+\citet{Liu2016ksd} exploited this Stein identity to construct the kernelised
+Stein discrepancy (KSD), a tractable goodness-of-fit measure that does not
+require normalisation of the reference density---precisely the property that
+makes it applicable when $p = \pi^{*}$ is known only through its score.
+In the graph anomaly detection literature, \citet{Cai2021strgnn} proposed
+StrGNN, a structural-temporal GNN that detects anomalous edges by mining
+unusual temporal subgraph structures; applied to enterprise security, it
+achieved zero false negatives on benchmark datasets.
+Most recently, \citet{Bai2025crcsgad} introduced CRC-SGAD, applying
+conformal risk control to supervised graph anomaly detection with formal
+bounds on both the false-negative rate and the false-positive rate via a
+spectral GNN calibrator.
+CRC-SGAD is the closest existing work to \textsc{Siren} in combining
+GNN-based detection with statistical guarantees for a security application;
+however, it relies on conformal prediction---which requires labelled
+calibration data---and does not posit or exploit a stochastic process model
+for normal traffic.
+\textsc{Siren} addresses this gap by grounding the anomaly signal in the
+Stein identity of the \emph{learned} stationary distribution of a
+graph-coupled It\^o SDE, requiring no attack labels at training or
+calibration time.
+
+\subsection{Distributionally Robust Learning on Graphs}
+
+Distributionally robust optimisation (DRO) hardens models against
+distributional shift by minimising the worst-case expected loss within a
+Wasserstein ball around the empirical distribution~\citep{Sinha2018wrm}.
+\citet{Sadeghi2021drognn} applied this principle to graph-structured data,
+showing that a Wasserstein-ball DRO objective for GNN semi-supervised
+classification admits a strong-dual reformulation as regularised empirical
+risk minimisation.
+\citet{Wang2024drgnn} extended graph DRO to collaborative filtering,
+reinterpreting the GNN as a graph-smoothing regulariser to make the DRO
+objective tractable at scale.
+These methods improve worst-case robustness \emph{at training time} for
+supervised tasks but leave inference uncalibrated and provide no anomaly
+signal grounded in a generative process model.
+\textsc{Siren} takes a complementary approach: rather than robust supervised
+learning, it learns a continuous-time generative model of normal behaviour
+and uses deviations from that model's stationary-distribution score as the
+detection criterion---an unsupervised, process-model-based alternative that
+requires no attack labels.
