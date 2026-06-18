@@ -8,6 +8,15 @@ In this paper, we introduce SIREN (Stochastic It\=o Residual on Embedded Network
 
 SIREN leverages score-matching techniques \cite{Song2021sde} to learn the score function (the gradient of the log-probability density) of this normal stationary distribution. At inference time, the system continuously monitors the network state and computes the empirical score of the observed traffic. By measuring the discrepancy between the model-predicted score and the empirical score—a metric we term the \textit{Stein residual}—SIREN can identify when a node's trajectory deviates from expected normal behaviour. Crucially, by aggregating these Stein residuals across the network graph, SIREN amplifies the weak anomaly signals produced by lateral movement attacks, exposing coordinated malicious activities that would remain hidden if hosts were analysed independently.
 
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/intro_concept.eps}
+    \caption{Conceptual comparison of discrete-time GNN snapshots versus SIREN's continuous-time tracking. Standard graph snapshots leave temporal gaps where stealthy lateral movement can branch off unnoticed. By modeling the normal traffic evolution as a continuous SDE trajectory, SIREN can immediately flag out-of-distribution deviations via score matching.}
+    \label{fig:intro_concept}
+\end{figure}
+
+As illustrated in Figure \ref{fig:intro_concept}, relying purely on fixed-interval discrete snapshots creates blind spots. An attacker executing lateral movement can carefully pace their actions to fall below the detection threshold at any single discrete timestep. In contrast, SIREN tracks the continuous latent trajectory; even subtle, sub-threshold deviations compound across the continuous SDE formulation, shifting the state out of the high-probability acceptance region and triggering an anomaly alert.
+
 The main contributions of this work are as follows:
 \begin{itemize}
     \item We propose a continuous-time formulation of network intrusion detection, modelling host feature trajectories via graph-coupled It\=o SDEs that capture both autonomous node dynamics and topological mean-reversion.

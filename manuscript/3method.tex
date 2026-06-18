@@ -1,6 +1,13 @@
 \section{Methodology}\label{sec:method}
 
-This section details the architecture and formalisms of SIREN. We begin by defining the notation and problem setup, followed by the mechanism for constructing dynamic flow graphs. We then present the core graph-coupled It\=o SDE model, the score network architecture, and finally outline the training and inference algorithms.
+This section details the architecture and formalisms of SIREN. We begin by defining the notation and problem setup, followed by the mechanism for constructing dynamic flow graphs. We then present the core graph-coupled It\=o SDE model, the score network architecture, and finally outline the training and inference algorithms. The overall processing pipeline is illustrated in Figure \ref{fig:arch_diagram}.
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=\linewidth]{figures/arch_diagram.eps}
+    \caption{The SIREN Pipeline Architecture. Raw traffic logs are chunked into continuous windows to construct dynamic flow graphs. The latent representation of the network topology is modelled via a Graph-Coupled It\=o SDE. During inference, the learned score network isolates topological deviations, which are aggregated via the Stein Residual to trigger intrusion alerts.}
+    \label{fig:arch_diagram}
+\end{figure}
 
 \subsection{Notation and Problem Setup}
 
