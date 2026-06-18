@@ -105,7 +105,8 @@ In: \bbtitle{Proceedings of the 2022 {IEEE/IFIP} Network Operations and
 \bctitle{{MGF-GNN}: A multi-granularity graph fusion-based graph neural network
   method for network intrusion detection}.
 In: \bbtitle{Proceedings of the 2025 2nd International Conference on Generative
-  Artificial Intelligence and Information Security ({GAIIS} 2025)}.
+  Artificial Intelligence and Information Security ({GAIIS} 2025)},
+pp. \bfpage{616}--\blpage{620}.
 \bpublisher{ACM}, \blocation{???}
 (\byear{2025}).
 \doiurl{10.1145/3728725.3728822} .
@@ -170,7 +171,8 @@ In: \bbtitle{International Conference on Learning Representations ({ICLR}
 \begin{barticle}
 \bauthor{\bsnm{Lin}, \binits{L.}},
 \bauthor{\bsnm{Zhong}, \binits{Q.}},
-\bauthor{\bsnm{Qiu}, \binits{J.}}, \betal:
+\bauthor{\bsnm{Qiu}, \binits{J.}},
+\bauthor{\bsnm{Liang}, \binits{Z.}}:
 \batitle{{E-GRACL}: An {IoT} intrusion detection system based on graph neural
   networks}.
 \bjtitle{The Journal of Supercomputing}
@@ -385,13 +387,14 @@ pp. \bfpage{3747}--\blpage{3756}.
 %%% 21
 \bibitem[\protect\citeauthoryear{Bai et~al.}{2025}]{Bai2025crcsgad}
 \begin{botherref}
-\oauthor{\bsnm{Bai}},
-\oauthor{\bsnm{Zheng}},
-\oauthor{\bsnm{Zeng}}:
-{CRC-SGAD}: Conformal risk control for supervised graph anomaly detection.
-arXiv preprint
-(2025).
-arXiv:2504.02248. [VERIFY] full author list and publication venue.
+\oauthor{\bsnm{Bai}, \binits{S.}},
+\oauthor{\bsnm{Zheng}, \binits{X.}},
+\oauthor{\bsnm{Zeng}, \binits{D.D.}}:
+Crc-sgad: Conformal risk control for supervised graph anomaly detection.
+arXiv
+(2025)
+{\href{https://arxiv.org/abs/2504.02248}{{arXiv:2504.02248}}}
+{[cs.LG]}
 \end{botherref}
 \endbibitem
 
@@ -429,7 +432,15 @@ arXiv:2110.10582. [VERIFY] full author given names.
 %%% 24
 \bibitem[\protect\citeauthoryear{Wang et~al.}{2024}]{Wang2024drgnn}
 \begin{bchapter}
-\bauthor{\bsnm{Wang}}, \betal:
+\bauthor{\bsnm{Wang}, \binits{B.}},
+\bauthor{\bsnm{Chen}, \binits{J.}},
+\bauthor{\bsnm{Li}, \binits{C.}},
+\bauthor{\bsnm{Zhou}, \binits{S.}},
+\bauthor{\bsnm{Shi}, \binits{Q.}},
+\bauthor{\bsnm{Gao}, \binits{Y.}},
+\bauthor{\bsnm{Feng}, \binits{Y.}},
+\bauthor{\bsnm{Chen}, \binits{C.}},
+\bauthor{\bsnm{Wang}, \binits{C.}}:
 \bctitle{Distributionally robust graph-based recommendation system}.
 In: \bbtitle{Proceedings of the {ACM} Web Conference 2024 ({WWW} 2024)}.
 \bpublisher{ACM}, \blocation{???}
