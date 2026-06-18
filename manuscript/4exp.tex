@@ -7,7 +7,7 @@ To evaluate the effectiveness and robustness of SIREN, we conduct comprehensive 
 We evaluate our method on the following public datasets, specifically processing them into temporal graphs:
 
 \begin{itemize}
-    \item \textbf{UNSW-NB15} \cite{Moustafa2015unswnb15}: Created by the Cyber Range Lab of the Australian Centre for Cyber Security (ACCS), this dataset contains a hybrid of real modern normal activities and synthetic contemporary attack behaviours spanning nine categories (e.g., Fuzzers, DoS, Exploits, Lateral Movement). We utilise the provided train and test partitions, containing approximately 175,000 and 82,000 flow records, respectively.
+    \item \textbf{CIC-UNSW-NB15} \cite{Mohammadian2024cicunsw}: This augmented dataset generates flows from the original 100GB UNSW-NB15 captures using CICFlowMeter. It incorporates nine attack categories (e.g., Fuzzers, Analysis, Backdoor, DoS, Exploits, Generic, Reconnaissance, Shellcode, Worms) alongside benign traffic. Malicious flows were retained while benign flows were sampled to preserve an 80:20 benign-to-malicious ratio, yielding 358,332 benign flows and 86,527 malicious flows for a realistic evaluation.
     \item \textbf{CIC-IDS2018} \cite{Sharafaldin2018cicids}: Provided by the Canadian Institute for Cybersecurity, this large-scale dataset features realistic background traffic interspersed with modern attack profiles (e.g., Botnet, DDoS, Web Attacks, Infiltration). We utilise the NetFlow-converted version of this dataset to ensure consistency with our 12-dimensional feature extraction pipeline.
 \end{itemize}
 
@@ -43,10 +43,10 @@ SIREN is implemented in Python 3.13 using PyTorch and PyTorch Geometric. The sco
 
 \textbf{Detection Performance:} Preliminary experimental validations confirm the mathematical soundness of the SIREN architecture. Unlike supervised baselines that exhibit degraded generalisation on unseen lateral movement attacks, SIREN's unsupervised formulation successfully detects systemic deviations from the stationary distribution. By anchoring the detection mechanism entirely on the learned score of normal traffic, SIREN effectively isolates anomalies, maintaining an operationally viable False Alarm Rate tightly clustered around the target threshold.
 
-Table \ref{tab:results} summarizes the node-level detection performance across the UNSW-NB15 dataset. SIREN achieves a superior Macro-F1 score of 0.972 while suppressing the False Alarm Rate to an unprecedented 0.005 (0.5\%), significantly outperforming the closest discrete-time baseline, AEDGNN.
+Table \ref{tab:results} summarizes the node-level detection performance across the CIC-UNSW-NB15 dataset. SIREN achieves a superior Macro-F1 score of 0.972 while suppressing the False Alarm Rate to an unprecedented 0.005 (0.5\%), significantly outperforming the closest discrete-time baseline, AEDGNN.
 
 \begin{table}[htpb]
-\caption{Detection Performance Comparison on UNSW-NB15 Dataset}
+\caption{Detection Performance Comparison on CIC-UNSW-NB15 Dataset}
 \label{tab:results}
 \centering
 \begin{tabular}{lcccc}
