@@ -8,7 +8,7 @@ We evaluate our method on the following public datasets, specifically processing
 
 \begin{itemize}
     \item \textbf{UNSW-NB15} \cite{Moustafa2015unswnb15}: Created by the Cyber Range Lab of the Australian Centre for Cyber Security (ACCS), this dataset contains a hybrid of real modern normal activities and synthetic contemporary attack behaviours spanning nine categories (e.g., Fuzzers, DoS, Exploits, Lateral Movement). We utilise the provided train and test partitions, containing approximately 175,000 and 82,000 flow records, respectively.
-    \item \textbf{CIC-IDS2018}: Provided by the Canadian Institute for Cybersecurity, this large-scale dataset features realistic background traffic interspersed with modern attack profiles (e.g., Botnet, DDoS, Web Attacks, Infiltration). We utilise the NetFlow-converted version of this dataset to ensure consistency with our 12-dimensional feature extraction pipeline.
+    \item \textbf{CIC-IDS2018} \cite{Sharafaldin2018cicids}: Provided by the Canadian Institute for Cybersecurity, this large-scale dataset features realistic background traffic interspersed with modern attack profiles (e.g., Botnet, DDoS, Web Attacks, Infiltration). We utilise the NetFlow-converted version of this dataset to ensure consistency with our 12-dimensional feature extraction pipeline.
 \end{itemize}
 
 For both datasets, we adhere strictly to temporal ordering during data splitting to prevent data leakage. The first 70\% of the temporal windows are used for unsupervised training, the next 20\% for calibrating the detection threshold $\tau^*$, and the final 10\% for evaluation.

@@ -1,6 +1,6 @@
 %% BioMed_Central_Bib_Style_v1.01
 
-\begin{thebibliography}{24}
+\begin{thebibliography}{27}
 % BibTex style file: bmc-mathphys.bst (version 2.1), 2014-07-24
 \ifx \bisbn   \undefined \def \bisbn  #1{ISBN #1}\fi
 \ifx \binits  \undefined \def \binits#1{#1}\fi
@@ -455,6 +455,48 @@ In: \bbtitle{Proceedings of the {ACM} Web Conference 2024 ({WWW} 2024)}.
 (\byear{2024}).
 \bcomment{arXiv:2402.12994. [VERIFY] full author list.}
 \burl{https://arxiv.org/abs/2402.12994}
+\end{bchapter}
+\endbibitem
+
+%%% 25
+\bibitem[\protect\citeauthoryear{Meyn and Tweedie}{1993}]{meyn1993stability}
+\begin{bbook}
+\bauthor{\bsnm{Meyn}, \binits{S.P.}},
+\bauthor{\bsnm{Tweedie}, \binits{R.L.}}:
+\bbtitle{Markov Chains and Stochastic Stability}.
+\bpublisher{Springer}, \blocation{???}
+(\byear{1993}).
+\doiurl{10.1007/978-1-4471-3267-7}
+\end{bbook}
+\endbibitem
+
+%%% 26
+\bibitem[\protect\citeauthoryear{Talay and Tubaro}{1990}]{talay1990expansion}
+\begin{barticle}
+\bauthor{\bsnm{Talay}, \binits{D.}},
+\bauthor{\bsnm{Tubaro}, \binits{L.}}:
+\batitle{Expansion of the global error for numerical schemes solving stochastic
+  differential equations}.
+\bjtitle{Stochastic Analysis and Applications}
+\bvolume{8}(\bissue{4}),
+\bfpage{483}--\blpage{509}
+(\byear{1990})
+\doiurl{10.1080/07362999008809220}
+\end{barticle}
+\endbibitem
+
+%%% 27
+\bibitem[\protect\citeauthoryear{Karras et~al.}{2022}]{Karras2022edm}
+\begin{bchapter}
+\bauthor{\bsnm{Karras}, \binits{T.}},
+\bauthor{\bsnm{Aittala}, \binits{M.}},
+\bauthor{\bsnm{Aila}, \binits{T.}},
+\bauthor{\bsnm{Laine}, \binits{S.}}:
+\bctitle{Elucidating the design space of diffusion-based generative models}.
+In: \bbtitle{Advances in Neural Information Processing Systems (NeurIPS 2022)}
+(\byear{2022}).
+\bcomment{arXiv:2206.00364}.
+\burl{https://arxiv.org/abs/2206.00364}
 \end{bchapter}
 \endbibitem
 
